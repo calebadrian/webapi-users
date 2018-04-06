@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API_Users.Models
+namespace keepr.Models
 {
     public class RegisterUserModel
     {
