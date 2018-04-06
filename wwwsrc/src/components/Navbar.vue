@@ -22,9 +22,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="">
-                            <input type="email" placeholder="email">
-                            <input type="password" placeholder="password">
+                        <form @submit.prevent="login">
+                            <input type="email" placeholder="email" v-model="loginUser.email">
+                            <input type="password" placeholder="password" v-model="loginUser.password">
                             <button type="submit" class="btn btn-success">Login</button>
                         </form>
                     </div>
@@ -41,10 +41,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="">
-                            <input type="text" placeholder="username">
-                            <input type="email" placeholder="email">
-                            <input type="password" placeholder="password">
+                        <form @submit.prevent="register">
+                            <input type="text" placeholder="username" v-model="newUser.username">
+                            <input type="email" placeholder="email" v-model="newUser.email">
+                            <input type="password" placeholder="password" v-model="newUser.password">
                             <button type="submit" class="btn btn-success">Register</button>
                         </form>
                     </div>
@@ -59,7 +59,23 @@
         name: 'Navbar',
         data() {
             return {
-
+                loginUser: {
+                    email: '',
+                    password: ''
+                },
+                newUser: {
+                    username: '',
+                    email: '',
+                    password: ''
+                }
+            }
+        },
+        methods: {
+            login(){
+                this.$store.dispatch('login', this.loginUser)
+            },
+            register(){
+                this.$store.dispatch('register', this.newUser)
             }
         }
     }
