@@ -94,6 +94,13 @@ namespace keepr.Controllers
             return "How did you even get here?";
         }
 
+        [HttpDelete("logout")]
+        public async Task<string> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return "successfully logged out";
+        }
+
 
 
     }

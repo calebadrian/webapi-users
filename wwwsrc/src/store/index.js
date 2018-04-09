@@ -22,11 +22,19 @@ vue.use(vuex)
 
 export default new vuex.Store({
     state: {
-        user: {}
+        user: {},
+        userVaults: [],
+        vault: {}
     },
     mutations: {
         setUser(state, payload) {
             state.user = payload;
+        },
+        setUserVaults(state, payload) {
+            state.userVaults = payload;
+        },
+        setVault(state, payload) {
+            state.vault = payload;
         }
     },
     actions: {
@@ -52,9 +60,7 @@ export default new vuex.Store({
             auth.get('authenticate', payload)
                 .then(res => {
                     commit('setUser', res.data)
-                    if (res.data == ""){
-                        router.push({ name: "Login" })
-                    } else {
+                    if (res.data == "") {
                         router.push({ name: "Home" })
                     }
                 })
@@ -66,7 +72,33 @@ export default new vuex.Store({
             auth.delete('logout')
                 .then(res => {
                     commit('setUser', {})
-                    router.push({name: "Login"})
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        addVault({ commit, dispatch }, payload) {
+            ourAPI.post('vaults', payload)
+                .then(res => {
+                    dispatch('getUserVaults', payload.userId)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getVault({ commit, dispatch }, payload) {
+            ourAPI.get('vaults/' + payload)
+                .then(res => {
+                    commit('setVault', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getUserVaults({ commit, dispatch }, payload) {
+            ourAPI.get('vaults/users/' + payload)
+                .then(res => {
+                    commit('setUserVaults', res.data)
                 })
                 .catch(err => {
                     console.error(err)

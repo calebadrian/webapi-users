@@ -87,7 +87,14 @@ namespace keepr.Repositories
             User savedUser = _db.QueryFirstOrDefault<User>(@"
             SELECT * FROM users WHERE id = @id
             ", new { id });
-            return savedUser.GetReturnModel();
+            if (savedUser == null)
+            {
+                return null;
+            }
+            else
+            {
+                return savedUser.GetReturnModel();
+            }
         }
 
         internal UserReturnModel UpdateUser(UserReturnModel user)

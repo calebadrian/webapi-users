@@ -7,7 +7,22 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="navBtn">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/#/" id="navbarDropdown" role="button" data-toggle="dropdown">
+                        Pages
+                    </a>
+                    <div class="dropdown-menu">
+                        <router-link :to="{name: 'Profile', params: {profileId: user.id}}" v-if="user.id">
+                            <a class="dropdown-item">My Profile</a>
+                        </router-link>
+                    </div>
+                </li>
+            </ul>
+            <div class="navBtn" v-if="user.id">
+                <button class="btn btn-danger" @click="logout">Logout</button>
+            </div>
+            <div class="navBtn" v-else>
                 <button class="btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button>
                 <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Register</button>
             </div>
@@ -71,11 +86,19 @@
             }
         },
         methods: {
-            login(){
+            login() {
                 this.$store.dispatch('login', this.loginUser)
             },
-            register(){
+            register() {
                 this.$store.dispatch('register', this.newUser)
+            },
+            logout() {
+                this.$store.dispatch('logout')
+            }
+        },
+        computed: {
+            user() {
+                return this.$store.state.user
             }
         }
     }
