@@ -43,7 +43,7 @@
 <script>
     import navbar from './Navbar'
     export default {
-        name: 'Home',
+        name: 'Profile',
         data() {
             return {
                 newVault: {

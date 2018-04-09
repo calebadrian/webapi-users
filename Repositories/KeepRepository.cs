@@ -20,7 +20,7 @@ namespace keepr.Repositories
 
         public Keep GetKeep(string id)
         {
-            return _db.QueryFirstOrDefault(@"
+            return _db.QueryFirstOrDefault<Keep>(@"
             SELECT * FROM keeps
             WHERE id = @id", new { id });
         }

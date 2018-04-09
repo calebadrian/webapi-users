@@ -1,8 +1,17 @@
 <template>
     <div class="vault">
         <navbar></navbar>
-        <h1>{{vault.name}}</h1>
-        <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addKeepModal"></i>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1>{{vault.name}}</h1>
+                    <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addKeepModal"></i>
+                </div>
+                <div v-for="keep in keeps" class="col-md-2 col-sm-6">
+                    <keep :keep="keep"></keep>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="addKeepModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -27,6 +36,7 @@
 
 <script>
     import navbar from './Navbar'
+    import keep from './Keep'
     export default {
         name: 'Vault',
         data() {
@@ -49,7 +59,8 @@
             }
         },
         components: {
-            navbar
+            navbar,
+            keep
         },
         computed: {
             vault() {
@@ -57,6 +68,9 @@
             },
             user() {
                 return this.$store.state.user
+            },
+            keeps() {
+                return this.$store.state.keepsByVault
             }
         }
     }

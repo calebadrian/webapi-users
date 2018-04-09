@@ -7,6 +7,8 @@ import Profile from '@/components/Profile'
 //@ts-ignore
 import Vault from '@/components/Vault'
 
+import SingleKeep from '@/components/SingleKeep'
+
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +27,11 @@ export default new Router({
       path: '/vaults/:vaultId',
       name: 'Vault',
       component: Vault
+    },
+    {
+      path: '/keeps/:keepId',
+      name: 'SingleKeep',
+      component: SingleKeep
     }
   ]
 })

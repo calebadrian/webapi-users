@@ -25,7 +25,9 @@ export default new vuex.Store({
         user: {},
         userVaults: [],
         vault: {},
-        keepsByVault: []
+        keepsByVault: [],
+        keeps: [],
+        keep: {}
     },
     mutations: {
         setUser(state, payload) {
@@ -39,6 +41,12 @@ export default new vuex.Store({
         },
         setKeepsByVault(state, payload) {
             state.keepsByVault = payload;
+        },
+        setKeeps(state, payload) {
+            state.keeps = payload;
+        },
+        setKeep(state, payload){
+            state.keep = payload
         }
     },
     actions: {
@@ -132,6 +140,24 @@ export default new vuex.Store({
             ourAPI.get('vaultkeeps/' + payload)
                 .then(res => {
                     commit('setKeepsByVault', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getKeeps({ commit, dispatch }, payload) {
+            ourAPI.get('keeps')
+                .then(res => {
+                    commit('setKeeps', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getKeepById({ commit, dispatch }, payload) {
+            ourAPI.get('keeps/' + payload)
+                .then(res => {
+                    commit('setKeep', res.data)
                 })
                 .catch(err => {
                     console.error(err)
