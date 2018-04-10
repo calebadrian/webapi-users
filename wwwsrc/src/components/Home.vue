@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-2 col-sm-6" v-for="keep in keeps">
-          <keep :keep="keep" v-if="keep.private != 1"></keep>
+          <keep :keep="keep"></keep>
         </div>
       </div>
     </div>

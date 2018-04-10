@@ -184,6 +184,7 @@ export default new vuex.Store({
                             keepId: res.data.id,
                             userId: res.data.userId
                         })
+                        dispatch('getProfileUserKeeps', res.data.userId)
                     }
                 })
                 .catch(err => {

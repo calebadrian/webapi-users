@@ -60,14 +60,12 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="vault in profileUserVaults">
-                                    <div v-if="vault.private != 1 || profileUser.id == user.id">
-                                        <h4>
-                                            <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
-                                        </h4>
-                                        <h6>{{vault.description}}</h6>
-                                        <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
-                                    </div>
+                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="vault in profileUserVaults" v-if="vault.private != 1 || profileUser.id == user.id">
+                                    <h4>
+                                        <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
+                                    </h4>
+                                    <h6>{{vault.description}}</h6>
+                                    <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +99,7 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="keep in profileUserKeeps">
+                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="keep in profileUserKeeps" v-if="profileUser.id == user.id || keep.private != 1">
                                     <keep :keep="keep"></keep>
                                 </div>
                             </div>
