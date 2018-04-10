@@ -87,6 +87,12 @@
                                                 <input type="text" placeholder="name" v-model="newKeep.name">
                                                 <input type="text" placeholder="description" v-model="newKeep.description">
                                                 <input type="url" placeholder="image" v-model="newKeep.pic">
+                                                <div>
+                                                    <label for="private">
+                                                        private
+                                                    </label>
+                                                    <input type="checkbox" name="private" v-model="newKeep.private">
+                                                </div>
                                                 <v-select label="name" :options="profileUserVaults" v-model="vault"></v-select>
                                                 <button class="btn btn-success" type="submit">Create Keep</button>
                                             </form>
@@ -124,6 +130,7 @@
                     name: '',
                     description: '',
                     pic: '',
+                    private: false,
                     keepCount: 0,
                     shareCount: 0,
                     viewCount: 0
@@ -148,6 +155,11 @@
                 this.$store.dispatch('addVault', this.newVault)
             },
             addKeep() {
+                if (!this.newKeep.private) {
+                    this.newKeep.private = 0
+                } else {
+                    this.newKeep.private = 1
+                }
                 this.newKeep.userId = this.user.id;
                 this.$store.dispatch('addKeep', { newKeep: this.newKeep, vault: this.vault })
             },
