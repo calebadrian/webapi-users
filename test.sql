@@ -24,6 +24,9 @@
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
 --     userId VARCHAR(255),
+--     keepCount int NOT NULL,
+--     shareCount int NOT NULL,
+--     viewCount int NOT NULL,
 --     INDEX userId (userId),
 --     FOREIGN KEY (userId)
 --         REFERENCES users(id)

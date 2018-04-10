@@ -36,19 +36,28 @@ namespace keepr.Repositories
                     Id = id,
                     Name = addKeep.Name,
                     Description = addKeep.Description,
-                    userId = addKeep.userId
+                    userId = addKeep.userId,
+                    keepCount = addKeep.keepCount,
+                    shareCount = addKeep.shareCount,
+                    viewCount = addKeep.viewCount
                 };
                 var success = _db.Execute(@"
                 INSERT INTO keeps(
                     id,
                     name,
                     description,
-                    userId
+                    userId,
+                    keepCount,
+                    shareCount,
+                    viewCount
                 ) VALUES (
                     @Id,
                     @Name,
                     @Description,
-                    @userId
+                    @userId,
+                    @keepCount,
+                    @shareCount,
+                    @viewCount
                 )", keep);
                 if (success < 1)
                 {

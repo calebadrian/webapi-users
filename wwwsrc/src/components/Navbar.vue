@@ -1,32 +1,34 @@
 <template>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="navbar">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/#/" id="navbarDropdown" role="button" data-toggle="dropdown">
-                        Pages
-                    </a>
-                    <div class="dropdown-menu">
-                        <router-link :to="{name: 'Profile', params: {profileId: user.id}}" v-if="user.id">
-                            <a class="dropdown-item">My Profile</a>
-                        </router-link>
-                    </div>
-                </li>
-            </ul>
-            <div class="navBtn" v-if="user.id">
-                <button class="btn btn-danger" @click="logout">Logout</button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/#/" id="navbarDropdown" role="button" data-toggle="dropdown">
+                            Pages
+                        </a>
+                        <div class="dropdown-menu">
+                            <router-link :to="{name: 'Profile', params: {profileId: user.id}}" v-if="user.id">
+                                <a class="dropdown-item">My Profile</a>
+                            </router-link>
+                        </div>
+                    </li>
+                </ul>
+                <div class="navBtn" v-if="user.id">
+                    <button class="btn btn-danger" @click="logout">Logout</button>
+                </div>
+                <div class="navBtn" v-else>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Register</button>
+                </div>
             </div>
-            <div class="navBtn" v-else>
-                <button class="btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button>
-                <button class="btn btn-primary" data-toggle="modal" data-target="#registerModal">Register</button>
-            </div>
-        </div>
+        </nav>
         <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -66,7 +68,7 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
 </template>
 
 <script>
@@ -105,7 +107,7 @@
 </script>
 
 <style scoped>
-    .navbar{
+    .navbar {
         height: 13vh;
     }
 </style>

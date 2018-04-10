@@ -74,6 +74,8 @@ export default new vuex.Store({
                     commit('setUser', res.data)
                     if (res.data == "") {
                         router.push({ name: "Home" })
+                    } else {
+                        dispatch('getUserVaults', res.data.id)
                     }
                 })
                 .catch(err => {
@@ -116,12 +118,12 @@ export default new vuex.Store({
                     console.error(err)
                 })
         },
-        addKeep({ commit, dispatch, state }, payload) {
-            ourAPI.post('keeps', payload)
+        addKeep({ commit, dispatch }, payload) {
+            ourAPI.post('keeps', payload.newKeep)
                 .then(res => {
                     if (res.data != '') {
                         dispatch('addVaultKeep', {
-                            vaultId: state.vault.id,
+                            vaultId: payload.vault.id,
                             keepId: res.data.id,
                             userId: res.data.userId
                         })
