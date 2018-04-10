@@ -36,6 +36,7 @@ namespace keepr.Repositories
                     Id = id,
                     Name = addKeep.Name,
                     Description = addKeep.Description,
+                    Pic = addKeep.Pic,
                     userId = addKeep.userId,
                     keepCount = addKeep.keepCount,
                     shareCount = addKeep.shareCount,
@@ -46,6 +47,7 @@ namespace keepr.Repositories
                     id,
                     name,
                     description,
+                    pic,
                     userId,
                     keepCount,
                     shareCount,
@@ -54,6 +56,7 @@ namespace keepr.Repositories
                     @Id,
                     @Name,
                     @Description,
+                    @Pic,
                     @userId,
                     @keepCount,
                     @shareCount,
@@ -88,6 +91,13 @@ namespace keepr.Repositories
                 throw new Exception("COULD NOT UPDATE");
             }
             return keep;
+        }
+
+        public IEnumerable<Keep> GetUserKeeps(string id)
+        {
+            return _db.Query<Keep>(@"
+            SELECT * FROM keeps
+            WHERE userId = @id", new {id});
         }
 
 

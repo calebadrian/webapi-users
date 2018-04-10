@@ -2,6 +2,7 @@
 --     id VARCHAR(255) NOT NULL,
 --     username VARCHAR(20) NOT NULL,
 --     email VARCHAR(255) NOT NULL,
+--     profilePic VARCHAR(255),
 --     password VARCHAR(255) NOT NULL,
 --     PRIMARY KEY (id),
 --     UNIQUE KEY email (email)
@@ -23,6 +24,7 @@
 --     id VARCHAR(255) NOT NULL,
 --     name VARCHAR(20) NOT NULL,
 --     description VARCHAR(255) NOT NULL,
+--     pic VARCHAR(255) NOT NULL,
 --     userId VARCHAR(255),
 --     keepCount int NOT NULL,
 --     shareCount int NOT NULL,

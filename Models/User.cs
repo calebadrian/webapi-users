@@ -7,6 +7,7 @@ namespace keepr.Models
         public string Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
+        public string ProfilePic { get; set; }
         public string Password { get; set; }
 
         internal UserReturnModel GetReturnModel()
@@ -15,6 +16,7 @@ namespace keepr.Models
             {
                 Id = Id,
                 Username = Username,
+                profilePic = ProfilePic,
                 Email = Email
             };
         }

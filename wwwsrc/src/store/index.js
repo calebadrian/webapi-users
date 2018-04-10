@@ -30,7 +30,8 @@ export default new vuex.Store({
         keepsByVault: [],
         keeps: [],
         keep: {},
-        keepUser: {}
+        keepUser: {},
+        profileUserKeeps: []
     },
     mutations: {
         setUser(state, payload) {
@@ -59,6 +60,9 @@ export default new vuex.Store({
         },
         setKeepUser(state, payload) {
             state.keepUser = payload
+        },
+        setProfileUserKeeps(state, payload) {
+            state.profileUserKeeps = payload
         }
     },
     actions: {
@@ -100,6 +104,7 @@ export default new vuex.Store({
                 .then(res => {
                     commit('setUser', {})
                     commit('setUserVaults', {})
+                    router.push({ name: "Home" })
                 })
                 .catch(err => {
                     console.error(err)
@@ -200,6 +205,15 @@ export default new vuex.Store({
                     if (res.data != '') {
                         dispatch('getKeepsByVault', payload.vaultId)
                     }
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getProfileUserKeeps({ commit, dispatch }, payload) {
+            ourAPI.get('keeps/users/' + payload)
+                .then(res => {
+                    commit('setProfileUserKeeps', res.data)
                 })
                 .catch(err => {
                     console.error(err)

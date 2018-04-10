@@ -4,9 +4,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
+                    <img :src="keep.pic">
                     <h1>{{keep.name}}</h1>
                     <h5>{{keep.description}}</h5>
-                    <h5>{{keepUser.username}}</h5>
+                    <h5>Created by: <router-link :to="{ name: 'Profile', params: {profileId: keepUser.id}}">{{keepUser.username}}</router-link></h5>
                 </div>
             </div>
         </div>

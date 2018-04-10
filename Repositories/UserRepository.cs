@@ -25,6 +25,7 @@ namespace keepr.Repositories
                     Id = id,
                     Username = creds.Username,
                     Email = creds.Email,
+                    ProfilePic = creds.profilePic,
                     Password = BCrypt.Net.BCrypt.HashPassword(creds.Password)
                 };
                 var success = _db.Execute(@"
@@ -32,11 +33,13 @@ namespace keepr.Repositories
                     id,
                     username,
                     email,
+                    profilePic,
                     password
                 ) VALUES (
                     @Id,
                     @Username,
                     @Email,
+                    @ProfilePic,
                     @Password
                 )", user);
                 if (success < 1)
@@ -47,7 +50,8 @@ namespace keepr.Repositories
                 {
                     Id = id,
                     Username = user.Username,
-                    Email = user.Email
+                    Email = user.Email,
+                    profilePic = user.ProfilePic,
                 };
             }
             catch (MySqlException e)

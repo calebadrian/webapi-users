@@ -4,9 +4,23 @@
         <div class="container-fluid">
             <div class="row justify-content-between">
                 <div class="col-sm-12">
-                    <h1>{{profileUser.username}}</h1>
+                    <div class="row profile-card">
+                        <div class="col-sm-12 col-md-6">
+                            <h1>{{profileUser.username}}</h1>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div v-if="profileUser.profilePic">
+                                <img :src="profileUser.profilePic">
+                            </div>
+                            <div v-else>
+                                <img src="http://placehold.it/200x200">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-12">
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-sm-10">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="pills-vaults-tab" data-toggle="pill" href="#pills-vaults" role="tab">Vaults</a>
@@ -17,7 +31,7 @@
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-vaults" role="tabpanel">
-                            <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addVaultModal" v-if="profileUser.id == user.id"></i>
+                            <i class="fas fa-2x fa-plus-square mb-4" data-toggle="modal" data-target="#addVaultModal" v-if="profileUser.id == user.id"></i>
                             <div class="modal fade" id="addVaultModal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -37,8 +51,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-3" v-for="vault in profileUserVaults">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="vault in profileUserVaults">
                                     <h4>
                                         <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
                                     </h4>
@@ -59,14 +73,20 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form @submit.prevent="addKeep">
+                                            <form @submit.prevent="addKeep" class="d-flex flex-column">
                                                 <input type="text" placeholder="name" v-model="newKeep.name">
                                                 <input type="text" placeholder="description" v-model="newKeep.description">
+                                                <input type="url" placeholder="image" v-model="newKeep.pic">
                                                 <v-select label="name" :options="profileUserVaults" v-model="vault"></v-select>
                                                 <button class="btn btn-success" type="submit">Create Keep</button>
                                             </form>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="keep in profileUserKeeps">
+                                    <keep :keep="keep"></keep>
                                 </div>
                             </div>
                         </div>
@@ -79,6 +99,7 @@
 
 <script>
     import navbar from './Navbar'
+    import keep from './Keep'
     export default {
         name: 'Profile',
         data() {
@@ -86,6 +107,7 @@
                 newVault: {
                     name: '',
                     description: '',
+                    pic: '',
                     userId: ''
                 },
                 newKeep: {
@@ -102,6 +124,7 @@
             this.$store.dispatch('authenticate')
             this.$store.dispatch('getProfileUser', this.$route.params.profileId)
             this.$store.dispatch('getProfileUserVaults', this.$route.params.profileId)
+            this.$store.dispatch('getProfileUserKeeps', this.$route.params.profileId)
         },
         methods: {
             addVault() {
@@ -112,12 +135,13 @@
                 this.newKeep.userId = this.user.id;
                 this.$store.dispatch('addKeep', { newKeep: this.newKeep, vault: this.vault })
             },
-            deleteVault(vault){
+            deleteVault(vault) {
                 this.$store.dispatch('deleteVault', vault);
             }
         },
         components: {
             navbar,
+            keep
         },
         computed: {
             user() {
@@ -128,10 +152,21 @@
             },
             profileUserVaults() {
                 return this.$store.state.profileUserVaults
+            },
+            profileUserKeeps() {
+                return this.$store.state.profileUserKeeps
             }
         }
     }
 </script>
 
 <style scoped>
+    img{
+        width: 200px;
+        height: 200px;
+        border-radius: 100%;
+    }
+    .container-fluid{
+        margin-top: 3vh;
+    }
 </style>

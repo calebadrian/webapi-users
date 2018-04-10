@@ -1,10 +1,12 @@
 <template>
     <div class="keep">
+        <img :src="keep.pic">
         <h1 class="wrap">{{keep.name}}</h1>
-        <h5>{{keep.description}}</h5>
-        <h6>Keeps: {{keep.keepCount}}</h6>
-        <h6>Shares: {{keep.shareCount}}</h6>
-        <h6>Views: {{keep.viewCount}}</h6>
+        <div class="d-flex justify-content-between">
+            <h6><i class="fab fa-kickstarter-k"></i>: {{keep.keepCount}}</h6>
+            <h6><i class="fas fa-share"></i>: {{keep.shareCount}}</h6>
+            <h6><i class="fas fa-eye"></i>: {{keep.viewCount}}</h6>
+        </div>
         <div class="overlay d-flex align-items-end justify-content-between">
             <button class="btn btn-info">Share</button>
             <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">Pin</button>
@@ -60,7 +62,7 @@
                 this.keep.keepCount++
                 this.$store.dispatch('editKeep', this.keep)
             },
-            increaseViews(){
+            increaseViews() {
                 this.keep.viewCount++
                 this.$store.dispatch('editKeep', this.keep)
             }
@@ -79,13 +81,16 @@
         word-wrap: break-word;
     }
 
+    img {
+        width: 100%;
+    }
+
     .keep:hover .overlay {
         opacity: 1;
     }
 
     .overlay {
-        border-radius: 10%;
-        background: rgba(0, 0, 0, .2);
+        background: rgba(0, 0, 0, .3);
         color: white;
         position: absolute;
         height: 100%;

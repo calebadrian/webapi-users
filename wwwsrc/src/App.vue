@@ -18,8 +18,7 @@
     text-align: center;
     color: #2c3e50;
   }
-
-  .container-fluid {
-    margin-top: 15vh;
+  .container-fluid{
+    margin-top: 3vh;
   }
 </style>

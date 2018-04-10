@@ -61,9 +61,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="register">
+                        <form @submit.prevent="register" class="d-flex flex-column">
                             <input type="text" placeholder="username" v-model="newUser.username">
                             <input type="email" placeholder="email" v-model="newUser.email">
+                            <input type="url" placeholder="profile picture" v-model="newUser.profilePic">
                             <input type="password" placeholder="password" v-model="newUser.password">
                             <button type="submit" class="btn btn-success">Register</button>
                         </form>
@@ -86,6 +87,7 @@
                 newUser: {
                     username: '',
                     email: '',
+                    profilePic: '',
                     password: ''
                 }
             }
@@ -111,7 +113,7 @@
 
 <style scoped>
     .navbar {
-        height: 13vh;
+        height: 10vh;
     }
     h4{
         color: white;

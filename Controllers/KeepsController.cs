@@ -32,6 +32,12 @@ namespace keepr.Controllers
             return _db.GetKeep(id);
         }
 
+        [HttpGet("users/{userId}")]
+        public IEnumerable<Keep> GetUserKeeps(string userId)
+        {
+            return _db.GetUserKeeps(userId);
+        }
+
         [HttpPost]
         public Keep AddKeep([FromBody] AddKeepModel addKeep)
         {
