@@ -38,6 +38,7 @@ namespace keepr.Repositories
                     Id = id,
                     Name = addVault.Name,
                     Description = addVault.Description,
+                    Private = addVault.Private,
                     userId = addVault.userId,
                 };
                 var success = _db.Execute(@"
@@ -45,11 +46,13 @@ namespace keepr.Repositories
                     id,
                     name,
                     description,
+                    private,
                     userId
                 ) VALUES (
                     @Id,
                     @Name,
                     @Description,
+                    @Private,
                     @userId
                 )", vault);
                 if (success < 1)

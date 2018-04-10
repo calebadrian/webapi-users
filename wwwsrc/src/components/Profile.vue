@@ -7,6 +7,8 @@
                     <div class="row profile-card">
                         <div class="col-sm-12 col-md-6">
                             <h1>{{profileUser.username}}</h1>
+                            <h6>Vaults: {{profileUserVaults.length}}</h6>
+                            <h6>Keeps: {{profileUserKeeps.length}}</h6>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <div v-if="profileUser.profilePic">
@@ -42,9 +44,15 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form @submit.prevent="addVault">
+                                            <form @submit.prevent="addVault" class="d-flex flex-column">
                                                 <input type="text" placeholder="name" v-model="newVault.name">
                                                 <input type="text" placeholder="description" v-model="newVault.description">
+                                                <div>
+                                                    <label for="private">
+                                                        private
+                                                    </label>
+                                                    <input type="checkbox" name="private" v-model="newVault.private">
+                                                </div>
                                                 <button class="btn btn-success" type="submit">Add Vault</button>
                                             </form>
                                         </div>
@@ -53,11 +61,13 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="vault in profileUserVaults">
-                                    <h4>
-                                        <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
-                                    </h4>
-                                    <h6>{{vault.description}}</h6>
-                                    <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
+                                    <div v-if="vault.private != 1 || profileUser.id == user.id">
+                                        <h4>
+                                            <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
+                                        </h4>
+                                        <h6>{{vault.description}}</h6>
+                                        <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -107,12 +117,13 @@
                 newVault: {
                     name: '',
                     description: '',
-                    pic: '',
+                    private: false,
                     userId: ''
                 },
                 newKeep: {
                     name: '',
                     description: '',
+                    pic: '',
                     keepCount: 0,
                     shareCount: 0,
                     viewCount: 0
@@ -129,6 +140,11 @@
         methods: {
             addVault() {
                 this.newVault.userId = this.user.id
+                if (!this.newVault.private) {
+                    this.newVault.private = 0
+                } else {
+                    this.newVault.private = 1
+                }
                 this.$store.dispatch('addVault', this.newVault)
             },
             addKeep() {
@@ -161,12 +177,13 @@
 </script>
 
 <style scoped>
-    img{
+    img {
         width: 200px;
         height: 200px;
         border-radius: 100%;
     }
-    .container-fluid{
+
+    .container-fluid {
         margin-top: 3vh;
     }
 </style>

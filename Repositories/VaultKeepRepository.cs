@@ -57,6 +57,7 @@ namespace keepr.Repositories
                 k.id,
                 k.name,
                 k.description,
+                k.pic,
                 k.userId,
                 k.viewCount,
                 k.shareCount,

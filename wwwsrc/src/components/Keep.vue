@@ -8,8 +8,8 @@
             <h6><i class="fas fa-eye"></i>: {{keep.viewCount}}</h6>
         </div>
         <div class="overlay d-flex align-items-end justify-content-between">
-            <button class="btn btn-info">Share</button>
             <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">Pin</button>
+            <button class="btn btn-info">Share</button>
             <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
                 <button class="btn btn-success" @click="increaseViews">View</button>
             </router-link>

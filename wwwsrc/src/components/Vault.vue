@@ -5,6 +5,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h1>{{vault.name}}</h1>
+                    <h6>Keeps: {{keeps.length}}</h6>
                 </div>
                 <div v-for="keep in keeps" class="col-md-2 col-sm-6">
                     <keep :keep="keep"></keep>
