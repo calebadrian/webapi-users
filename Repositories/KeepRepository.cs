@@ -72,6 +72,24 @@ namespace keepr.Repositories
             }
         }
 
+        public Keep EditKeep(Keep keep)
+        {
+            var success = _db.Execute(@"
+            UPDATE keeps
+            SET
+            name = @Name,
+            description = @Description,
+            keepCount = @keepCount,
+            shareCount = @shareCount,
+            viewCount = @viewCount
+            WHERE id = @Id", keep);
+            if (success < 1)
+            {
+                throw new Exception("COULD NOT UPDATE");
+            }
+            return keep;
+        }
+
 
     }
 }

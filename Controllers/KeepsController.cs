@@ -46,5 +46,19 @@ namespace keepr.Controllers
             return null;
         }
 
+        [HttpPut]
+        public Keep EditKeep([FromBody] Keep keep)
+        {
+            if (ModelState.IsValid)
+            {
+                Keep newKeep = _db.EditKeep(keep);
+                if (newKeep != null)
+                {
+                    return newKeep;
+                }
+            }
+            return null;
+        }
+
     }
 }

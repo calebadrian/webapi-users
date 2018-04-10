@@ -57,7 +57,10 @@ namespace keepr.Repositories
                 k.id,
                 k.name,
                 k.description,
-                k.userId
+                k.userId,
+                k.viewCount,
+                k.shareCount,
+                k.keepCount
             FROM vaultkeeps vk
             JOIN keeps k ON k.id = vk.keepId
             WHERE vaultId = @vaultId", new {vaultId});

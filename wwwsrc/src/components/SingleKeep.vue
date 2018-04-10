@@ -6,6 +6,7 @@
                 <div class="col-sm-12">
                     <h1>{{keep.name}}</h1>
                     <h5>{{keep.description}}</h5>
+                    <h5>{{keepUser.username}}</h5>
                 </div>
             </div>
         </div>
@@ -30,6 +31,9 @@
         computed: {
             keep(){
                 return this.$store.state.keep
+            },
+            keepUser(){
+                return this.$store.state.keepUser
             }
         }
     }

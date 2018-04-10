@@ -20,8 +20,11 @@
                         </div>
                     </li>
                 </ul>
-                <div class="navBtn" v-if="user.id">
-                    <button class="btn btn-danger" @click="logout">Logout</button>
+                <div v-if="user.id" class="d-flex align-items-center">
+                    <h4 class="mr-2">{{user.username}}</h4>
+                    <div class="navBtn">
+                        <button class="btn btn-danger" @click="logout">Logout</button>
+                    </div>
                 </div>
                 <div class="navBtn" v-else>
                     <button class="btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button>
@@ -109,5 +112,9 @@
 <style scoped>
     .navbar {
         height: 13vh;
+    }
+    h4{
+        color: white;
+        margin-bottom: 0;
     }
 </style>

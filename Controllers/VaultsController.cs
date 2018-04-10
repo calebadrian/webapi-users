@@ -46,5 +46,11 @@ namespace keepr.Controllers
             return null;
         }
 
+        [HttpDelete("{id}")]
+        public string DeleteVault(string id)
+        {
+            return _db.DeleteVault(id);
+        }
+
     }
 }

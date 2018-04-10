@@ -61,6 +61,12 @@ namespace keepr.Controllers
             return _db.GetUserById(id);
         }
 
+        [HttpGet("{id}")]
+        public UserReturnModel getUserById(string id)
+        {
+            return _db.GetUserById(id);
+        }
+
         [Authorize]
         [HttpPut]
         public UserReturnModel UpdateAccount([FromBody]UserReturnModel user)

@@ -9,7 +9,7 @@
             <button class="btn btn-info">Share</button>
             <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">Pin</button>
             <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
-                <button class="btn btn-success">View</button>
+                <button class="btn btn-success" @click="increaseViews">View</button>
             </router-link>
         </div>
         <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -36,10 +36,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -61,6 +57,12 @@
                     keepId: this.keep.id,
                     userId: this.$store.state.user.id
                 })
+                this.keep.keepCount++
+                this.$store.dispatch('editKeep', this.keep)
+            },
+            increaseViews(){
+                this.keep.viewCount++
+                this.$store.dispatch('editKeep', this.keep)
             }
         },
         computed: {

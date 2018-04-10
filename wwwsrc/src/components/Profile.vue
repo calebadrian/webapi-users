@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row justify-content-between">
                 <div class="col-sm-12">
-                    <h1>{{user.username}}</h1>
+                    <h1>{{profileUser.username}}</h1>
                 </div>
                 <div class="col-sm-12">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -17,7 +17,7 @@
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-vaults" role="tabpanel">
-                            <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addVaultModal"></i>
+                            <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addVaultModal" v-if="profileUser.id == user.id"></i>
                             <div class="modal fade" id="addVaultModal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -38,16 +38,17 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-3" v-for="vault in userVaults">
+                                <div class="col-sm-12 col-md-3" v-for="vault in profileUserVaults">
                                     <h4>
                                         <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
                                     </h4>
                                     <h6>{{vault.description}}</h6>
+                                    <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-keeps" role="tabpanel">
-                            <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addKeepModal"></i>
+                            <i class="fas fa-2x fa-plus-square" data-toggle="modal" data-target="#addKeepModal" v-if="profileUser.id == user.id"></i>
                             <div class="modal fade" id="addKeepModal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -61,7 +62,7 @@
                                             <form @submit.prevent="addKeep">
                                                 <input type="text" placeholder="name" v-model="newKeep.name">
                                                 <input type="text" placeholder="description" v-model="newKeep.description">
-                                                <v-select label="name" :options="userVaults" v-model="vault"></v-select>
+                                                <v-select label="name" :options="profileUserVaults" v-model="vault"></v-select>
                                                 <button class="btn btn-success" type="submit">Create Keep</button>
                                             </form>
                                         </div>
@@ -99,16 +100,20 @@
         },
         mounted() {
             this.$store.dispatch('authenticate')
-            this.$store.dispatch('getUserVaults', this.$route.params.profileId)
+            this.$store.dispatch('getProfileUser', this.$route.params.profileId)
+            this.$store.dispatch('getProfileUserVaults', this.$route.params.profileId)
         },
         methods: {
             addVault() {
                 this.newVault.userId = this.user.id
                 this.$store.dispatch('addVault', this.newVault)
             },
-            addKeep(){
+            addKeep() {
                 this.newKeep.userId = this.user.id;
-                this.$store.dispatch('addKeep', {newKeep: this.newKeep, vault: this.vault})
+                this.$store.dispatch('addKeep', { newKeep: this.newKeep, vault: this.vault })
+            },
+            deleteVault(vault){
+                this.$store.dispatch('deleteVault', vault);
             }
         },
         components: {
@@ -118,8 +123,11 @@
             user() {
                 return this.$store.state.user
             },
-            userVaults() {
-                return this.$store.state.userVaults
+            profileUser() {
+                return this.$store.state.profileUser
+            },
+            profileUserVaults() {
+                return this.$store.state.profileUserVaults
             }
         }
     }

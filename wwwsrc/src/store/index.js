@@ -23,11 +23,14 @@ vue.use(vuex)
 export default new vuex.Store({
     state: {
         user: {},
+        profileUser: {},
         userVaults: [],
+        profileUserVaults: [],
         vault: {},
         keepsByVault: [],
         keeps: [],
-        keep: {}
+        keep: {},
+        keepUser: {}
     },
     mutations: {
         setUser(state, payload) {
@@ -45,8 +48,17 @@ export default new vuex.Store({
         setKeeps(state, payload) {
             state.keeps = payload;
         },
-        setKeep(state, payload){
+        setKeep(state, payload) {
             state.keep = payload
+        },
+        setProfileUser(state, payload) {
+            state.profileUser = payload
+        },
+        setProfileUserVaults(state, payload) {
+            state.profileUserVaults = payload
+        },
+        setKeepUser(state, payload) {
+            state.keepUser = payload
         }
     },
     actions: {
@@ -54,6 +66,7 @@ export default new vuex.Store({
             auth.post('login', payload)
                 .then(res => {
                     commit('setUser', res.data)
+                    dispatch('getUserVaults', res.data.id)
                 })
                 .catch(err => {
                     console.error(err)
@@ -69,7 +82,7 @@ export default new vuex.Store({
                 })
         },
         authenticate({ commit, dispatch }, payload) {
-            auth.get('authenticate', payload)
+            auth.get('authenticate')
                 .then(res => {
                     commit('setUser', res.data)
                     if (res.data == "") {
@@ -86,6 +99,25 @@ export default new vuex.Store({
             auth.delete('logout')
                 .then(res => {
                     commit('setUser', {})
+                    commit('setUserVaults', {})
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getKeepUser({ commit, dispatch }, payload) {
+            auth.get('' + payload)
+                .then(res => {
+                    commit('setKeepUser', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getProfileUser({ commit, dispatch }, payload) {
+            auth.get('' + payload)
+                .then(res => {
+                    commit('setProfileUser', res.data)
                 })
                 .catch(err => {
                     console.error(err)
@@ -95,6 +127,7 @@ export default new vuex.Store({
             ourAPI.post('vaults', payload)
                 .then(res => {
                     dispatch('getUserVaults', payload.userId)
+                    dispatch('getProfileUserVaults', payload.userId)
                 })
                 .catch(err => {
                     console.error(err)
@@ -109,10 +142,29 @@ export default new vuex.Store({
                     console.error(err)
                 })
         },
+        deleteVault({ commit, dispatch }, payload) {
+            ourAPI.delete('vaults/' + payload.id)
+                .then(res => {
+                    dispatch('getUserVaults', payload.userId)
+                    dispatch('getProfileUserVaults', payload.userId)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
         getUserVaults({ commit, dispatch }, payload) {
             ourAPI.get('vaults/users/' + payload)
                 .then(res => {
                     commit('setUserVaults', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getProfileUserVaults({ commit, dispatch }, payload) {
+            ourAPI.get('vaults/users/' + payload)
+                .then(res => {
+                    commit('setProfileUserVaults', res.data)
                 })
                 .catch(err => {
                     console.error(err)
@@ -129,6 +181,18 @@ export default new vuex.Store({
                         })
                     }
                 })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        editKeep({ commit, dispatch }, payload) {
+            ourAPI.put('keeps', payload)
+                .then(res => {
+
+                })
+                .catch(err => {
+                    console.error(err)
+                })
         },
         addVaultKeep({ commit, dispatch }, payload) {
             ourAPI.post('vaultkeeps', payload)
@@ -136,6 +200,9 @@ export default new vuex.Store({
                     if (res.data != '') {
                         dispatch('getKeepsByVault', payload.vaultId)
                     }
+                })
+                .catch(err => {
+                    console.error(err)
                 })
         },
         getKeepsByVault({ commit, dispatch }, payload) {
@@ -160,6 +227,7 @@ export default new vuex.Store({
             ourAPI.get('keeps/' + payload)
                 .then(res => {
                     commit('setKeep', res.data)
+                    dispatch('getKeepUser', res.data.userId)
                 })
                 .catch(err => {
                     console.error(err)

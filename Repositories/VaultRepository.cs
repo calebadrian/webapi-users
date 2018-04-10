@@ -17,7 +17,7 @@ namespace keepr.Repositories
         {
             return _db.QueryFirstOrDefault<Vault>(@"
             SELECT * FROM vaults
-            WHERE id = @id", new {id});
+            WHERE id = @id", new { id });
         }
 
         public IEnumerable<Vault> GetUserVaults(string userId)
@@ -62,6 +62,21 @@ namespace keepr.Repositories
             {
                 System.Console.WriteLine("ERROR: " + e.Message);
                 return null;
+            }
+        }
+
+        public string DeleteVault(string id)
+        {
+            var success = _db.Execute(@"
+            DELETE FROM vaults
+            WHERE id = @id", new { id });
+            if (success < 1)
+            {
+                return null;
+            }
+            else
+            {
+                return "Successfully deleted!";
             }
         }
     }
