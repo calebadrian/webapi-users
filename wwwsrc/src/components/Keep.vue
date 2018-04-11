@@ -10,10 +10,32 @@
                     <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">Pin</button>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <button class="btn btn-info">Share</button>
                     <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
                         <button class="btn btn-success" @click="increaseViews">View</button>
                     </router-link>
+                    <popover name="pop" :pointer="false">
+                        <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description"
+                            hashtags="vuejs,javascript,framework" twitter-user="vuejs" inline-template>
+                            <div class="d-flex flex-column">
+                                <network network="email">
+                                    <i class="fa fa-envelope"></i> Email
+                                </network>
+                                <network network="facebook">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </network>
+                                <network network="linkedin">
+                                    <i class="fab fa-linkedin"></i> LinkedIn
+                                </network>
+                                <network network="reddit">
+                                    <i class="fab fa-reddit-square"></i> Reddit
+                                </network>
+                                <network network="twitter">
+                                    <i class="fab fa-twitter-square"></i> Twitter
+                                </network>
+                            </div>
+                        </social-sharing>
+                    </popover>
+                    <button v-popover:pop.bottom>Share</button>
                 </div>
             </div>
         </div>
@@ -89,6 +111,7 @@
         props: ['keep'],
         data() {
             return {
+                url: window.location.href + 'keeps/' + this.keep.id
             }
         },
         methods: {
@@ -109,7 +132,7 @@
                 }
                 this.$store.dispatch('editKeep', keep)
             },
-            deleteKeep(keep){
+            deleteKeep(keep) {
                 if (!keep.private) {
                     keep.private = 0
                 } else {
@@ -119,6 +142,10 @@
             },
             increaseViews() {
                 this.keep.viewCount++
+                this.$store.dispatch('editKeep', this.keep)
+            },
+            increaseShares() {
+                this.keep.shareCount++;
                 this.$store.dispatch('editKeep', this.keep)
             }
         },
@@ -155,7 +182,6 @@
     }
 
     .overlay {
-        color: white;
         position: absolute;
         height: 69%;
         width: 100%;
@@ -166,5 +192,20 @@
         bottom: 0;
         right: 0;
         opacity: 0;
+    }
+
+    .vue-popover {
+        left: 41% !important;
+        top: 12% !important;
+        width: 50% !important;
+    }
+
+    div[data-popover="pop"] {
+        background: #444;
+        color: #f9f9f9;
+
+        font-size: 15px;
+        line-height: 1.5;
+        margin: 5px;
     }
 </style>
