@@ -46,6 +46,20 @@ namespace keepr.Controllers
             return null;
         }
 
+        [HttpPut("{id}")]
+        public Vault EditVault([FromBody] Vault editVault)
+        {
+            if (ModelState.IsValid)
+            {
+                Vault vault = _db.EditVault(editVault);
+                if (vault != null)
+                {
+                    return vault;
+                }
+            }
+            return null;
+        }
+
         [HttpDelete("{id}")]
         public string DeleteVault(string id)
         {

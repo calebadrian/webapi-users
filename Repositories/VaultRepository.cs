@@ -82,5 +82,21 @@ namespace keepr.Repositories
                 return "Successfully deleted!";
             }
         }
+
+        public Vault EditVault(Vault editVault)
+        {
+            var success = _db.Execute(@"
+            UPDATE vaults
+            SET
+            name = @Name,
+            description = @Description,
+            private = @Private
+            WHERE id = @Id", editVault);
+            if (success < 1)
+            {
+                throw new Exception("COULD NOT EDIT VAULT");
+            }
+            return editVault;
+        }
     }
 }

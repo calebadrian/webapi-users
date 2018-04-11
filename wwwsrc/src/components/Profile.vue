@@ -61,9 +61,37 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="vault in profileUserVaults" v-if="vault.private != 1 || profileUser.id == user.id">
-                                    <h4>
-                                        <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
-                                    </h4>
+                                    <div class="d-flex align-items-center">
+                                        <h4>
+                                            <router-link :to="{name: 'Vault', params: {vaultId: vault.id}}">{{vault.name}}</router-link>
+                                        </h4>
+                                        <i class="fas fa-edit ml-2" data-toggle="modal" :data-target="'#' + vault.id" v-if="profileUser.id == user.id"></i>
+                                        <div class="modal fade" :id="vault.id" tabindex="-1" role="dialog">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Vault</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form @submit.prevent="editVault(vault)" class="d-flex flex-column">
+                                                            <input type="text" placeholder="name" v-model="vault.name">
+                                                            <input type="text" placeholder="description" v-model="vault.description">
+                                                            <div>
+                                                                <label for="private">
+                                                                    private
+                                                                </label>
+                                                                <input type="checkbox" name="private" v-model="vault.private">
+                                                            </div>
+                                                            <button class="btn btn-success" type="submit">Edit Vault</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <h6>{{vault.description}}</h6>
                                     <button class="btn btn-danger" @click="deleteVault(vault)" v-if="profileUser.id == user.id">Delete</button>
                                 </div>
@@ -151,6 +179,14 @@
                     this.newVault.private = 1
                 }
                 this.$store.dispatch('addVault', this.newVault)
+            },
+            editVault(vault) {
+                if (!vault.private) {
+                    vault.private = 0
+                } else {
+                    vault.private = 1
+                }
+                this.$store.dispatch('editVault', vault)
             },
             addKeep() {
                 if (!this.newKeep.private) {

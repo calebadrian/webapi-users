@@ -157,6 +157,17 @@ export default new vuex.Store({
                     console.error(err)
                 })
         },
+        editVault({ commit, dispatch }, payload) {
+            console.log(payload)
+            ourAPI.put('vaults/' + payload.id, payload)
+                .then(res => {
+                    dispatch('getUserVaults', payload.userId)
+                    dispatch('getProfileUserVaults', payload.userId)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
         getUserVaults({ commit, dispatch }, payload) {
             ourAPI.get('vaults/users/' + payload)
                 .then(res => {
