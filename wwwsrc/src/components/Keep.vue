@@ -35,7 +35,7 @@
                             </div>
                         </social-sharing>
                     </popover>
-                    <button v-popover:pop.bottom>Share</button>
+                    <button class="btn btn-info" v-popover:pop.bottom>Share</button>
                 </div>
             </div>
         </div>
