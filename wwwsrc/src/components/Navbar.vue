@@ -7,21 +7,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="/#/" id="navbarDropdown" role="button" data-toggle="dropdown">
-                            Pages
-                        </a>
-                        <div class="dropdown-menu">
-                            <router-link :to="{name: 'Profile', params: {profileId: user.id}}" v-if="user.id">
-                                <a class="dropdown-item">My Profile</a>
-                            </router-link>
-                        </div>
-                    </li>
-                </ul>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <div v-if="user.id" class="d-flex align-items-center">
-                    <h4 class="mr-2">{{user.username}}</h4>
+                    <router-link :to="{ name: 'Profile', params: {profileId: user.id}}" class="d-flex align-items-center">
+                        <img :src="user.profilePic" v-if="user.profilePic">
+                        <img src="http://placehold.it/50x50" v-else>
+                        <h4 class="ml-2 mr-2">{{user.username}}</h4>
+                    </router-link>
                     <div class="navBtn">
                         <button class="btn btn-danger" @click="logout">Logout</button>
                     </div>
@@ -115,7 +107,13 @@
     .navbar {
         height: 10vh;
     }
-    h4{
+    img{
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+    }
+
+    h4 {
         color: white;
         margin-bottom: 0;
     }

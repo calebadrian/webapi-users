@@ -163,6 +163,15 @@
             },
             deleteVault(vault) {
                 this.$store.dispatch('deleteVault', vault);
+            },
+            getProfileUser(userId) {
+                this.$store.dispatch('getProfileUser', userId)
+            },
+            getProfileUserVaults(userId) {
+                this.$store.dispatch('getProfileUserVaults', userId)
+            },
+            getProfileUserKeeps(userId) {
+                this.$store.dispatch('getProfileUserKeeps', userId)
             }
         },
         components: {
@@ -182,6 +191,12 @@
             profileUserKeeps() {
                 return this.$store.state.profileUserKeeps
             }
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.profileUser = this.getProfileUser(to.params.profileId)
+            this.profileUserVaults = this.getProfileUserVaults(to.params.profileId)
+            this.profileUserKeeps = this.getProfileUserKeeps(to.params.profileId)
+            next()
         }
     }
 </script>
