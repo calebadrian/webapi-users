@@ -80,6 +80,7 @@ export default new vuex.Store({
             auth.post('register', payload)
                 .then(res => {
                     commit('setUser', res.data)
+                    router.push({name: "Profile", params: {profileId: res.data.id}})
                 })
                 .catch(err => {
                     console.error(err)
@@ -205,7 +206,17 @@ export default new vuex.Store({
         editKeep({ commit, dispatch }, payload) {
             ourAPI.put('keeps', payload)
                 .then(res => {
-
+                    dispatch('getKeeps')
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        deleteKeep({ commit, dispatch }, payload) {
+            ourAPI.delete('keeps/' + payload.id, payload)
+                .then(res => {
+                    dispatch('getKeeps')
+                    dispatch('getProfileUserKeeps', payload.userId)
                 })
                 .catch(err => {
                     console.error(err)

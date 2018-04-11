@@ -87,9 +87,11 @@
         methods: {
             login() {
                 this.$store.dispatch('login', this.loginUser)
+                $('#loginModal').modal('hide')
             },
             register() {
                 this.$store.dispatch('register', this.newUser)
+                $('#registerModal').modal('hide')
             },
             logout() {
                 this.$store.dispatch('logout')

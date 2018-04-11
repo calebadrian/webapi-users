@@ -66,5 +66,10 @@ namespace keepr.Controllers
             return null;
         }
 
+        [HttpDelete("{id}")]
+        public Keep DeleteKeep(Keep keep)
+        {
+            return _db.DeleteKeep(keep);
+        }
     }
 }

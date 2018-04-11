@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-sm-10">
+                <div class="col-sm-12">
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="pills-vaults-tab" data-toggle="pill" href="#pills-vaults" role="tab">Vaults</a>
@@ -113,13 +113,13 @@
                                                 <input type="text" placeholder="name" v-model="newKeep.name">
                                                 <input type="text" placeholder="description" v-model="newKeep.description">
                                                 <input type="url" placeholder="image" v-model="newKeep.pic">
+                                                <v-select label="name" :options="profileUserVaults" v-model="vault"></v-select>
                                                 <div>
                                                     <label for="private">
                                                         private
                                                     </label>
                                                     <input type="checkbox" name="private" v-model="newKeep.private">
                                                 </div>
-                                                <v-select label="name" :options="profileUserVaults" v-model="vault"></v-select>
                                                 <button class="btn btn-success" type="submit">Create Keep</button>
                                             </form>
                                         </div>
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="col-sm-12 col-md-3 d-flex flex-column align-items-center" v-for="keep in profileUserKeeps" v-if="profileUser.id == user.id || keep.private != 1">
+                                <div class="col-sm-12 col-md-2 d-flex flex-column align-items-center" v-for="keep in profileUserKeeps" v-if="profileUser.id == user.id || keep.private != 1">
                                     <keep :keep="keep"></keep>
                                 </div>
                             </div>
@@ -179,6 +179,7 @@
                     this.newVault.private = 1
                 }
                 this.$store.dispatch('addVault', this.newVault)
+                $('#addVaultModal').modal('hide')
             },
             editVault(vault) {
                 if (!vault.private) {
@@ -196,6 +197,7 @@
                 }
                 this.newKeep.userId = this.user.id;
                 this.$store.dispatch('addKeep', { newKeep: this.newKeep, vault: this.vault })
+                $('#addKeepModal').modal('hide')
             },
             deleteVault(vault) {
                 this.$store.dispatch('deleteVault', vault);

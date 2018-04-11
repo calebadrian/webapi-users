@@ -85,6 +85,7 @@ namespace keepr.Repositories
             SET
             name = @Name,
             description = @Description,
+            private = @Private,
             keepCount = @keepCount,
             shareCount = @shareCount,
             viewCount = @viewCount
@@ -96,11 +97,22 @@ namespace keepr.Repositories
             return keep;
         }
 
+        public Keep DeleteKeep(Keep keep)
+        {
+            var success = _db.Execute(@"
+            DELETE FROM keeps
+            WHERE id = @Id", keep);
+            if (success < 1){
+                throw new Exception("COULD NOT DELETE");
+            }
+            return keep;
+        }
+
         public IEnumerable<Keep> GetUserKeeps(string id)
         {
             return _db.Query<Keep>(@"
             SELECT * FROM keeps
-            WHERE userId = @id", new {id});
+            WHERE userId = @id", new { id });
         }
 
 
