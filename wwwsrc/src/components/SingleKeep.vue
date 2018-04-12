@@ -26,8 +26,12 @@
                             </div>
                         </social-sharing>
                     </popover>
-                    <button class="btn btn-info" v-popover:pop.bottom><i class="far fa-share-square"></i></button>
-                    <button class="btn btn-danger ml-1" data-toggle="modal" :data-target="'#' + keep.id"><i class="fas fa-thumbtack"></i></button>
+                    <button class="btn btn-info" v-popover:pop.bottom>
+                        <i class="far fa-share-square"></i>
+                    </button>
+                    <button class="btn btn-danger ml-1" data-toggle="modal" :data-target="'#' + keep.id">
+                        <i class="fas fa-thumbtack"></i>
+                    </button>
                     <div class="modal fade" :id="keep.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -62,11 +66,15 @@
                 <div class="col-sm-6">
                     <h1>{{keep.name}}</h1>
                     <h5>{{keep.description}}</h5>
-                    <router-link class="d-flex justify-content-start align-items-center" :to="{ name: 'Profile', params: {profileId: keepUser.id}}">
-                        <img class="profilePic" :src="keepUser.profilePic" v-if="keepUser.profilePic">
-                        <img class="profilePic" src="http://placehold.it/50x50" v-else>
-                        <h5 class="ml-2">{{keepUser.username}}</h5>
-                    </router-link>
+                    <div class="d-flex align-items-center">
+                        <router-link class="d-flex justify-content-start align-items-center mr-1" :to="{ name: 'Profile', params: {profileId: keepUser.id}}">
+                            <img class="profilePic" :src="keepUser.profilePic" v-if="keepUser.profilePic">
+                            <img class="profilePic" src="http://placehold.it/50x50" v-else>
+                            <h5 class="ml-2">{{keepUser.username}} </h5>
+                        </router-link>
+                        <h5>on</h5>
+                        <router-link class="ml-1" :to="{name: 'Vault', params: {vaultId: vaultForKeep.id}}"><h5>{{vaultForKeep.name}}</h5></router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,6 +122,9 @@
             },
             userVaults() {
                 return this.$store.state.userVaults
+            },
+            vaultForKeep() {
+                return this.$store.state.vaultForKeep
             }
         }
     }

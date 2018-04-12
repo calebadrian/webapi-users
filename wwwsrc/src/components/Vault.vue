@@ -9,7 +9,7 @@
                 </div>
                 <div v-for="keep in keeps" class="col-md-2 col-sm-6" v-if="keep.private != 1 || keep.userId == user.id">
                     <keep :keep="keep"></keep>
-                    <button class="btn btn-danger" @click="removeFromVault(keep)">Remove From Vault</button>
+                    <button class="btn btn-danger" @click="removeFromVault(keep)" v-if="keep.userId == user.id">Remove From Vault</button>
                 </div>
             </div>
         </div>

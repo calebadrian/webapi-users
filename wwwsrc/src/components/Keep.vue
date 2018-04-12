@@ -2,41 +2,43 @@
     <div class="keep">
         <div class="image">
             <img :src="keep.pic">
-            <div class="overlay d-flex flex-column justify-content-between">
-                <div class="d-flex justify-content-between">
-                    <button class="btn btn-primary" v-if="keep.userId == user.id" data-toggle="modal" :data-target="'#edit' + keep.id">
-                        <i class="fas fa-edit"></i>
+            <div class="overlay d-flex justify-content-between">
+                <button class="btn btn-primary" v-if="keep.userId == user.id" data-toggle="modal" :data-target="'#edit' + keep.id">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">
+                    <i class="fas fa-thumbtack"></i>
+                </button>
+                <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
+                    <button class="btn btn-success" @click="increaseViews">
+                        <i class="fas fa-eye"></i>
                     </button>
-                    <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id"><i class="fas fa-thumbtack"></i></button>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
-                        <button class="btn btn-success" @click="increaseViews"><i class="fas fa-eye"></i></button>
-                    </router-link>
-                    <popover name="pop" :pointer="false">
-                        <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description"
-                            hashtags="vuejs,javascript,framework" twitter-user="vuejs" inline-template>
-                            <div class="d-flex flex-column">
-                                <network network="email">
-                                    <i class="fa fa-envelope"></i> Email
-                                </network>
-                                <network network="facebook">
-                                    <i class="fab fa-facebook"></i> Facebook
-                                </network>
-                                <network network="linkedin">
-                                    <i class="fab fa-linkedin"></i> LinkedIn
-                                </network>
-                                <network network="reddit">
-                                    <i class="fab fa-reddit-square"></i> Reddit
-                                </network>
-                                <network network="twitter">
-                                    <i class="fab fa-twitter-square"></i> Twitter
-                                </network>
-                            </div>
-                        </social-sharing>
-                    </popover>
-                    <button class="btn btn-info" v-popover:pop.bottom><i class="far fa-share-square"></i></button>
-                </div>
+                </router-link>
+                <popover name="pop" :pointer="false">
+                    <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description"
+                        hashtags="vuejs,javascript,framework" twitter-user="vuejs" inline-template>
+                        <div class="d-flex flex-column">
+                            <network network="email">
+                                <i class="fa fa-envelope"></i> Email
+                            </network>
+                            <network network="facebook">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </network>
+                            <network network="linkedin">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </network>
+                            <network network="reddit">
+                                <i class="fab fa-reddit-square"></i> Reddit
+                            </network>
+                            <network network="twitter">
+                                <i class="fab fa-twitter-square"></i> Twitter
+                            </network>
+                        </div>
+                    </social-sharing>
+                </popover>
+                <button class="btn btn-info" v-popover:pop.bottom>
+                    <i class="far fa-share-square"></i>
+                </button>
             </div>
         </div>
         <h1 class="wrap">{{keep.name}}</h1>
@@ -184,7 +186,7 @@
 
     .overlay {
         position: absolute;
-        height: 69%;
+        height: 10%;
         width: 100%;
         padding-left: 15px;
         padding-right: 15px;
@@ -193,6 +195,10 @@
         bottom: 0;
         right: 0;
         opacity: 0;
+    }
+
+    .overlay button{
+        height: 100%;
     }
 
     .vue-popover {

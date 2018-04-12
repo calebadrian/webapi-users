@@ -6,7 +6,7 @@ import Home from '@/components/Home'
 import Profile from '@/components/Profile'
 //@ts-ignore
 import Vault from '@/components/Vault'
-
+//@ts-ignore
 import SingleKeep from '@/components/SingleKeep'
 
 Vue.use(Router)
