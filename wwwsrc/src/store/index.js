@@ -31,7 +31,8 @@ export default new vuex.Store({
         keeps: [],
         keep: {},
         keepUser: {},
-        profileUserKeeps: []
+        profileUserKeeps: [],
+        vaultForKeep: {}
     },
     mutations: {
         setUser(state, payload) {
@@ -63,6 +64,9 @@ export default new vuex.Store({
         },
         setProfileUserKeeps(state, payload) {
             state.profileUserKeeps = payload
+        },
+        setVaultForKeep(state, payload){
+            state.vaultForKeep = payload
         }
     },
     actions: {
@@ -80,7 +84,7 @@ export default new vuex.Store({
             auth.post('register', payload)
                 .then(res => {
                     commit('setUser', res.data)
-                    router.push({name: "Profile", params: {profileId: res.data.id}})
+                    router.push({ name: "Profile", params: { profileId: res.data.id } })
                 })
                 .catch(err => {
                     console.error(err)
@@ -159,11 +163,19 @@ export default new vuex.Store({
                 })
         },
         editVault({ commit, dispatch }, payload) {
-            console.log(payload)
             ourAPI.put('vaults/' + payload.id, payload)
                 .then(res => {
                     dispatch('getUserVaults', payload.userId)
                     dispatch('getProfileUserVaults', payload.userId)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        removeFromVault({ commit, dispatch, state }, payload) {
+            ourAPI.delete('vaultkeeps/' + payload)
+                .then(res => {
+                    dispatch('getKeepsByVault', state.vault.id)
                 })
                 .catch(err => {
                     console.error(err)
@@ -265,6 +277,16 @@ export default new vuex.Store({
                 .then(res => {
                     commit('setKeep', res.data)
                     dispatch('getKeepUser', res.data.userId)
+                    dispatch('getVaultForKeep', res.data)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        },
+        getVaultForKeep({ commit, dispatch }, payload) {
+            ourAPI.get('vaultkeeps/' + payload.id + '/' + payload.userId)
+                .then(res => {
+                    commit('setVaultForKeep', res.data)
                 })
                 .catch(err => {
                     console.error(err)

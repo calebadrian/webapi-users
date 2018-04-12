@@ -9,6 +9,7 @@
                 </div>
                 <div v-for="keep in keeps" class="col-md-2 col-sm-6" v-if="keep.private != 1 || keep.userId == user.id">
                     <keep :keep="keep"></keep>
+                    <button class="btn btn-danger" @click="removeFromVault(keep)">Remove From Vault</button>
                 </div>
             </div>
         </div>
@@ -37,6 +38,9 @@
             addKeep() {
                 this.newKeep.userId = this.user.id;
                 this.$store.dispatch('addKeep', this.newKeep)
+            },
+            removeFromVault(keep) {
+                this.$store.dispatch('removeFromVault', keep.vkId)
             }
         },
         components: {
@@ -58,4 +62,5 @@
 </script>
 
 <style scoped>
+    
 </style>

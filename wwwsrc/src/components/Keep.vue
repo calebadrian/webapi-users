@@ -7,11 +7,11 @@
                     <button class="btn btn-primary" v-if="keep.userId == user.id" data-toggle="modal" :data-target="'#edit' + keep.id">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">Pin</button>
+                    <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id"><i class="fas fa-thumbtack"></i></button>
                 </div>
                 <div class="d-flex justify-content-between">
                     <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
-                        <button class="btn btn-success" @click="increaseViews">View</button>
+                        <button class="btn btn-success" @click="increaseViews"><i class="fas fa-eye"></i></button>
                     </router-link>
                     <popover name="pop" :pointer="false">
                         <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description"
@@ -35,7 +35,7 @@
                             </div>
                         </social-sharing>
                     </popover>
-                    <button class="btn btn-info" v-popover:pop.bottom>Share</button>
+                    <button class="btn btn-info" v-popover:pop.bottom><i class="far fa-share-square"></i></button>
                 </div>
             </div>
         </div>
@@ -64,10 +64,10 @@
                                     <h3>{{keep.name}}</h3>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div v-for="vault in userVaults" class="d-flex justify-content-between">
-                                        <h5>{{vault.name}}</h5>
-                                        <button class="btn btn-danger" @click="keepAtVault(vault)">Keep</button>
-                                    </div>
+                                    <form @submit.prevent="keepAtVault">
+                                        <v-select label="name" :options="userVaults" v-model="vault"></v-select>
+                                        <button class="btn btn-success">Keep</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -111,13 +111,14 @@
         props: ['keep'],
         data() {
             return {
-                url: window.location.href + 'keeps/' + this.keep.id
+                url: window.location.href + 'keeps/' + this.keep.id,
+                vault: ''
             }
         },
         methods: {
-            keepAtVault(vault) {
+            keepAtVault() {
                 this.$store.dispatch('addVaultKeep', {
-                    vaultId: vault.id,
+                    vaultId: this.vault.id,
                     keepId: this.keep.id,
                     userId: this.$store.state.user.id
                 })

@@ -50,10 +50,11 @@ namespace keepr.Repositories
                 return null;
             }
         }
-        public IEnumerable<Keep> GetKeepsByVault(string vaultId)
+        public IEnumerable<VaultKeepReturnModel> GetKeepsByVault(string vaultId)
         {
-            return _db.Query<Keep>(@"
+            return _db.Query<VaultKeepReturnModel>(@"
             SELECT
+                vk.id vkId,
                 k.id,
                 k.name,
                 k.description,
@@ -65,7 +66,33 @@ namespace keepr.Repositories
                 k.keepCount
             FROM vaultkeeps vk
             JOIN keeps k ON k.id = vk.keepId
-            WHERE vaultId = @vaultId", new {vaultId});
+            WHERE vaultId = @vaultId", new { vaultId });
+        }
+
+        public Vault GetVaultForKeep(string keepId, string userId)
+        {
+            return _db.QueryFirstOrDefault<Vault>(@"
+            SELECT
+                v.id,
+                v.name,
+                v.description,
+                v.private,
+                v.userId
+            FROM vaultkeeps vk
+            JOIN vaults v on v.id = vk.vaultId
+            WHERE keepId = @keepId AND vk.userId = @userId", new {keepId, userId});
+        }
+
+        public int DeleteVaultKeep(string id)
+        {
+            var success = _db.Execute(@"
+            DELETE FROM vaultkeeps
+            WHERE id = @id", new { id });
+            if (success < 1)
+            {
+                throw new Exception("COULD NOT DELETE");
+            }
+            return success;
         }
 
 

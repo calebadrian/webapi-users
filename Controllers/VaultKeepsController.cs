@@ -35,9 +35,22 @@ namespace keepr.Controllers
         }
 
         [HttpGet("{vaultId}")]
-        public IEnumerable<Keep> GetKeepsByVault(string vaultId)
+        public IEnumerable<VaultKeepReturnModel> GetKeepsByVault(string vaultId)
         {
             return _db.GetKeepsByVault(vaultId);
+        }
+
+        [HttpDelete("{id}")]
+
+        public int DeleteVaultKeep(string id)
+        {
+            return _db.DeleteVaultKeep(id);
+        }
+
+        [HttpGet("{keepId}/{userId}")]
+        public Vault GetVaultForKeep(string keepId, string userId)
+        {
+            return _db.GetVaultForKeep(keepId, userId);
         }
     }
 }
