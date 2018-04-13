@@ -6,17 +6,17 @@
                 <button class="btn btn-primary" v-if="keep.userId == user.id" data-toggle="modal" :data-target="'#edit' + keep.id">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id">
+                <button class="btn btn-danger" data-toggle="modal" :data-target="'#' + keep.id" v-if="user.id">
                     <i class="fas fa-thumbtack"></i>
                 </button>
-                <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}">
+                <router-link :to="{name: 'SingleKeep', params: {keepId: keep.id}}" v-if="user.id">
                     <button class="btn btn-success" @click="increaseViews">
                         <i class="fas fa-eye"></i>
                     </button>
                 </router-link>
-                <popover name="pop" :pointer="false">
-                    <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description"
-                        hashtags="vuejs,javascript,framework" twitter-user="vuejs" inline-template>
+                <button v-else class="btn hidden">Hide</button>
+                <popover name="pop">
+                    <social-sharing @open="increaseShares" :url="url" :title="keep.name" :description="keep.description" :quote="keep.description" inline-template>
                         <div class="d-flex flex-column">
                             <network network="email">
                                 <i class="fa fa-envelope"></i> Email
@@ -184,6 +184,11 @@
         opacity: .6;
     }
 
+    .hidden{
+        opacity: 0;
+        pointer-events: none;
+    }
+
     .overlay {
         position: absolute;
         height: 10%;
@@ -202,8 +207,8 @@
     }
 
     .vue-popover {
-        left: 41% !important;
-        top: 12% !important;
+        left: 55% !important;
+        top: 86% !important;
         width: 50% !important;
     }
 

@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <img :src="keep.pic">
+                    <img :src="keep.pic" class="full-width">
                 </div>
                 <div class="col-sm-6">
                     <h1>{{keep.name}}</h1>
@@ -131,6 +131,9 @@
 </script>
 
 <style scoped>
+    .full-width{
+        width: 100%;
+    }
     .profilePic {
         width: 50px;
         height: 50px;
